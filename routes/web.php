@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    Article::factory()
+        ->times(1000)
+        ->sequence(function ($sequence) {
+            return [
+                'created_at' => now()->subHour($sequence->index)
+            ];
+        })
+        ->create();
 });
